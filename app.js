@@ -9,15 +9,21 @@ downloadButton.addEventListener("click", downloadCanvas);
 
 function onSubmit(e) {
   e.preventDefault();
-  loadImageToCanvas(e.target.file.files[0]);
+
+  const color = form.color.value === 'white' ? '#fff' : '#000';
+  loadImageToCanvas(e.target.file.files[0], color);
 }
 
 function onInput(e) {
-  loadImageToCanvas(e.target.files[0]);
+  if (!form.file.value) {
+    return;
+  }
+  const color = form.color.value === 'white' ? '#fff' : '#000';
+  loadImageToCanvas(form.file.files[0], color);
 }
 
 function downloadCanvas(e) {
-  const name = e.target.dataset.name || 'download.png';
+  const name = `landscape-${e.target.dataset.name}` || 'landscape.png';
 
   const link = document.createElement('a');
   link.download = name;
@@ -26,7 +32,7 @@ function downloadCanvas(e) {
 }
 
 /*********************************** */
-function loadImageToCanvas(file) {
+function loadImageToCanvas(file, color = '#000') {
   var reader = new FileReader();
   reader.onload = function (event) {
     var img = new Image();
@@ -43,7 +49,7 @@ function loadImageToCanvas(file) {
       canvas.width = width;
       canvas.height = height;
 
-      ctx.fillStyle = "#000";
+      ctx.fillStyle = color;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       ctx.drawImage(

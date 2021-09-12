@@ -7,6 +7,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Convert to Landscape</title>
   <style>
+    form {
+      display: flex;
+    }
     canvas {
       display: block;
       max-width: 100%; 
@@ -24,7 +27,18 @@
   <h1> Convert to Landscape </h1>
   <form id="form">
     <input name="file" type="file" required />
+    <div>
+      <label>
+        <span> White </span>
+        <input checked type="radio" value="white" name="color" />
+      </label>
+      <label>
+        <span> Black </span>
+        <input type="radio" value="black" name="color" />
+      </label>
+    </div>
     <button type="submit"> Load </button>
+    
   </form>
   <hr />
   <canvas></canvas>
