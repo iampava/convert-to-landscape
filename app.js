@@ -11,7 +11,8 @@ function onSubmit(e) {
   e.preventDefault();
 
   const color = form.color.value === 'white' ? '#fff' : '#000';
-  loadImageToCanvas(e.target.file.files[0], color);
+  const width = form.width.value || undefined;
+  loadImageToCanvas(e.target.file.files[0], color, width);
 }
 
 function onInput(e) {
@@ -19,7 +20,8 @@ function onInput(e) {
     return;
   }
   const color = form.color.value === 'white' ? '#fff' : '#000';
-  loadImageToCanvas(form.file.files[0], color);
+  const width = form.width.value || undefined;
+  loadImageToCanvas(form.file.files[0], color, width);
 }
 
 function downloadCanvas(e) {
@@ -32,7 +34,7 @@ function downloadCanvas(e) {
 }
 
 /*********************************** */
-function loadImageToCanvas(file, color = '#000') {
+function loadImageToCanvas(file, color = '#000', finalWidth) {
   var reader = new FileReader();
   reader.onload = function (event) {
     var img = new Image();
@@ -46,7 +48,7 @@ function loadImageToCanvas(file, color = '#000') {
 
       [width, height] = [height, width];
 
-      canvas.width = width;
+      canvas.width = finalWidth || width;
       canvas.height = height;
 
       ctx.fillStyle = color;
