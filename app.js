@@ -40,13 +40,13 @@ function loadImageToCanvas(file, color = '#000', finalWidth) {
     var img = new Image();
     img.onload = function () {
       let { width, height } = img;
-      const ratio = width / height;
-      if (width > height) {
-        alert("This is not in portrait!")
-        return;
+      const isPortrait = width <= height;
+      let ratio = 1;
+      if (isPortrait) {
+        ratio = width / height;
+        [width, height] = [height, width];
       }
 
-      [width, height] = [height, width];
 
       canvas.width = finalWidth || width;
       canvas.height = height;
@@ -54,15 +54,27 @@ function loadImageToCanvas(file, color = '#000', finalWidth) {
       ctx.fillStyle = color;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      ctx.drawImage(
-        img,
-        canvas.width / 2 - (height * ratio) / 2,
-        canvas.height / 2 - (width * ratio) / 2,
-        // Height which is the old width
-        height * ratio,
-        // Width which is the old height
-        width * ratio
-      );
+
+      if (isPortrait) {
+        ctx.drawImage(
+          img,
+          canvas.width / 2 - (height * ratio) / 2,
+          canvas.height / 2 - (width * ratio) / 2,
+          // Height which is the old width
+          height * ratio,
+          // Width which is the old height
+          width * ratio
+        );
+      } else {
+        ctx.drawImage(
+          img,
+          canvas.width / 2 - width / 2,
+          canvas.height / 2 - height / 2,
+          width,
+          height
+        );
+
+      }
 
       downloadButton.dataset.name = file.name;
     }
